@@ -49,19 +49,56 @@ const generatePassword = () => {
   return result.join("");
 };
 
-const counterChange = () => {
-  const value = progressBar.value;
-  progressCounter.innerText = value;
-};
-
 let checkedCounter = 0;
 
-const strengthHandler = (counter) => {
-  if (counter < 1) {
-    strengthText.innerText = "";
-    return;
+const strengthHandler = (counter, passwordLength) => {
+  if (counter == 1) {
+    return "Weak";
+  } else if (counter == 2 && passwordLength >= 6) {
+    return "Fair";
+  } else if (counter == 3 && passwordLength >= 8) {
+    return "Medium";
+  } else if (counter == 4 && passwordLength >= 10) {
+    return "Strong";
+  } else {
+    if (counter == 2) {
+      return "Weak";
+    } else if (counter == 3) {
+      return "Fair";
+    } else if (counter == 4) {
+      return "Medium";
+    }
   }
-  strengthText.innerText = strength[counter - 1];
+};
+
+const strengthContainerHandler = () => {
+  const passwordLength = progressBar.value;
+
+  const strength = strengthHandler(checkedCounter, passwordLength);
+  let blocksToFill = 0;
+
+  switch (strength) {
+    case "Weak":
+      blocksToFill = 1;
+      break;
+    case "Fair":
+      blocksToFill = 2;
+      break;
+    case "Medium":
+      blocksToFill = 3;
+      break;
+    case "Strong":
+      blocksToFill = 4;
+      break;
+  }
+
+  for (let i = 0; i < blocksToFill; i++) {
+    strengthShow[i].classList.add(...classes);
+  }
+  for (let i = blocksToFill; i < strengthShow.length; i++) {
+    strengthShow[i].classList.remove(...classes);
+  }
+  strengthText.textContent = strength;
 };
 
 checkers.forEach((checker, index) => {
@@ -72,15 +109,17 @@ checkers.forEach((checker, index) => {
     } else {
       checkedCounter--;
     }
-    for (let i = 0; i < checkedCounter; i++) {
-      strengthShow[i].classList.add(...classes);
-    }
-    for (let i = checkedCounter; i < strengthShow.length; i++) {
-      strengthShow[i].classList.remove(...classes);
-    }
-    strengthHandler(checkedCounter);
+
+    strengthContainerHandler();
   });
 });
+
+const counterChange = () => {
+  const value = progressBar.value;
+  progressCounter.innerText = value;
+  strengthContainerHandler();
+  return value;
+};
 
 const copyToClipboard = async () => {
   try {
