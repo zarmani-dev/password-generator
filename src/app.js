@@ -54,11 +54,11 @@ let checkedCounter = 0;
 const strengthHandler = (counter, passwordLength) => {
   if (counter == 1) {
     return "Weak";
-  } else if (counter == 2 && passwordLength >= 6) {
+  } else if (counter == 2 && passwordLength >= 2) {
     return "Fair";
-  } else if (counter == 3 && passwordLength >= 8) {
+  } else if (counter == 3 && passwordLength >= 4) {
     return "Medium";
-  } else if (counter == 4 && passwordLength >= 10) {
+  } else if (counter == 4 && passwordLength >= 6) {
     return "Strong";
   } else {
     if (counter == 2) {
