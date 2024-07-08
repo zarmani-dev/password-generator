@@ -1,6 +1,7 @@
 // Selectors
 const resultOutput = document.querySelector("#result");
 const copyBtn = document.querySelector("#copy-btn");
+const copiedText = document.querySelector("#copied-text");
 const progressCounter = document.querySelector("#progress-count");
 const progressBar = document.querySelector("#progress-bar");
 const generateBtn = document.querySelector("#generate-btn");
@@ -81,6 +82,26 @@ checkers.forEach((checker, index) => {
   });
 });
 
+const copyToClipboard = async () => {
+  try {
+    if (!resultOutput.value) {
+      copyBtn.classList.add("animate__shakeY", "text-red-600");
+      copyBtn.addEventListener("animationend", () => {
+        copyBtn.classList.remove("animate__shakeY", "text-red-600");
+      });
+      return;
+    }
+    await navigator.clipboard.writeText(resultOutput.value);
+    copiedText.classList.add("animate__fadeInUp", "opacity-100");
+    copiedText.addEventListener("animationend", () => {
+      copiedText.classList.remove("animate__fadeInUp", "opacity-100");
+    });
+  } catch (err) {
+    console.error("Failed to copy: ", err);
+  }
+};
+
 // Listeners
 progressBar.addEventListener("input", counterChange);
 generateBtn.addEventListener("click", generatePassword);
+copyBtn.addEventListener("click", copyToClipboard);

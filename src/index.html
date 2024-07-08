@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Password Generator</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../node_modules/animate.css/animate.min.css" />
   </head>
   <body class="bg-stone-950">
     <main class="max-w-[400px] mx-auto p-3 mt-12">
@@ -22,8 +23,13 @@
           />
           <button
             id="copy-btn"
-            class="text-teal-500 hover:text-stone-200 duration-100"
+            class="text-teal-500 active:text-stone-200 duration-100 relative animate__animated"
           >
+            <span
+              id="copied-text"
+              class="absolute bottom-full -left-2/4 -translate-x-full opacity-0 animate__animated"
+              >Copied</span
+            >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
